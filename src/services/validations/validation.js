@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
 const productName = Joi.string().min(5).required();
-// const number = Joi.number().integer().required();
 
 const validateName = (name) => {
   const { error } = productName.validate(name);

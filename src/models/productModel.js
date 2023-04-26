@@ -1,5 +1,4 @@
 const connection = require('./connection');
-// const validations = require('../services/validations/validation');
 
 const getProduct = async () => {
   const [result] = await connection.execute(
