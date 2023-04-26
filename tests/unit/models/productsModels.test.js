@@ -22,6 +22,10 @@ describe('Testando camada Models - Products', () => {
     expect(result).to.be.deep.equal(mock.getProductsResult);
   })
 
+  it('Testando o retorno de INSERT de novo product', async () => {
+    sinon.stub(connection, 'execute').resolves([{ insertId: 5 }]);
+    
+  })
 
  afterEach(() => sinon.restore());
 })
