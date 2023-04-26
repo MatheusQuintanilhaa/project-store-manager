@@ -22,5 +22,13 @@ describe('Testando a camada Service - products', () => {
 
   });
 
+  it('Testando a função createProduct em caso de sucesso', async () => {
+    sinon.stub(productsModel, 'createProduct').resolves({ id: 5, name: 'Biscoito Oreo' });
+
+    const result = await productsService.createProduct('Biscoito Oreo');
+
+    expect(result).to.be.deep.equal({ id: 5, name: 'Biscoito Oreo' });
+  });
+
   afterEach(() => sinon.restore());
 })

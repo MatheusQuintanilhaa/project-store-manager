@@ -24,9 +24,18 @@ describe('Testando camada Models - Products', () => {
 
   it('Testando o retorno de INSERT de novo product', async () => {
     sinon.stub(connection, 'execute').resolves([{ insertId: 5 }]);
-    
-  })
 
- afterEach(() => sinon.restore());
-})
+    const name = 'Biscoito Oreo';
+
+    const result = await productModel.createProduct(name);
+
+    expect(result).to.have.property('id');
+    expect(result).to.have.property('name');
+    expect(result.id).to.be.equal(5);
+    expect(result.name).to.be.equal(name)
+  });
+
+
+  afterEach(() => sinon.restore());
+});
 

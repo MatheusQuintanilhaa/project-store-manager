@@ -54,5 +54,35 @@ describe('Testando  a camada Controller - products', () => {
     expect(res.json).to.have.been.calledWith({ message: 'Product not found' });
   });
 
+  it('Testando a função createProduct com dados válidos', async () => {
+    sinon.stub(productService, 'createProduct').resolves(['mockado']);
+
+    const req = { body: { name: 'Havaiana de Pau' } };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+
+    await productController.createProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith(['mockado']);
+  })
+
+  it('Testando a função createProduct com dados inválidos', async () => {
+    sinon.stub(productService, 'createProduct').resolves(mock.error);
+
+    const req = { body: { name: 'Havaiana de Pau' } };
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+
+    await productController.createProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(mock.error.type);
+    expect(res.json).to.have.been.calledWith({ message: mock.error.message });
+  });
+
   afterEach(() => sinon.restore());
 });
