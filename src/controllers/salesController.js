@@ -3,7 +3,8 @@ const salesService = require('../services/salesService');
 
 const addSale = async (req, res) => {
   const result = await salesService.addSale(req.body);
-  if (result.type) return res.status(result.type).json(result);
+
+  if (result.type) return res.status(result.type).json({ message: result.message });
 
   res.status(201).json(result);
 };
