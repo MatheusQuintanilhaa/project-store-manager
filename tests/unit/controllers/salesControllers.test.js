@@ -70,7 +70,8 @@ describe('Testes da camada Controller - sales', () => {
     expect(res.json).to.have.been.calledWith(camelize(mock.resultFromGetSalesIdOne));
   });
 
-
+//test
 
   afterEach(() => sinon.restore());
 });
+
