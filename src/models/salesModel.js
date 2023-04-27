@@ -12,26 +12,6 @@ const verifyProduct = async (body) => {
   return initialResult;
 };
 
-// const addSale = async (body) => {
-//   const initialResult = await verifyProduct(body);
-
-//   if (initialResult.type) return initialResult;
-
-//   const [result] = await connection.execute(
-//     'INSERT INTO StoreManager.sales(date) VALUES (now())',
-//   );
-
-//   body.forEach(async (cur) => {
-//     await connection.execute(
-//       'INSERT INTO StoreManager.sales_products(sale_id, product_id, quantity) VALUES(?, ?, ?)',
-//       [result.insertId, cur.productId, cur.quantity],
-//     );
-//   });
-//   console.log(result);
-
-//   return result.insertId;
-// };
-
 const addSale = async (body) => {
   const initialResult = await verifyProduct(body);
 
@@ -71,8 +51,22 @@ const getSalesById = async (id) => {
   return result;
 };
 
+const deleteSale = async (id) => {
+  const verify = await getSalesById(id);
+
+  if (verify[0].length === 0) return { type: 404, message: 'Sale not found' };
+
+  await connection.execute(
+    'DELETE FROM StoreManager.sales WHERE id = ?',
+    [id],
+  );
+
+  return { type: null };
+};
+
 module.exports = {
   addSale,
   getSales,
   getSalesById,
+  deleteSale,
 };

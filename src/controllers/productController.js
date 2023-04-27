@@ -22,7 +22,7 @@ const createProduct = async (req, res) => {
 
   if (result.type) return res.status(result.type).json({ message: result.message });
 
-  res.status(201).json(result);
+  return res.status(201).json(result);
 };
 
 const updateProduct = async (req, res) => {
@@ -33,7 +33,7 @@ const updateProduct = async (req, res) => {
 
   if (result.type) return res.status(result.type).json({ message: result.message });
 
-  res.status(200).json(result);
+  return res.status(200).json(result);
 };
 
 const deleteProduct = async (req, res) => {
@@ -43,7 +43,7 @@ const deleteProduct = async (req, res) => {
 
   if (verify.type) return res.status(verify.type).json({ message: verify.message });
 
-  res.sendStatus(204);
+  return res.status(204).send();
 };
 
 module.exports = {

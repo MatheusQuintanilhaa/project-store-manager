@@ -1,4 +1,4 @@
-const resultFromGetSales = [
+const resultsOfSales = [
   {
     "saleId": 1,
     "date": "2022-09-10T15:55:31.000Z",
@@ -19,7 +19,7 @@ const resultFromGetSales = [
   }
 ];
 
-const resultFromGetSalesIdOne = [
+const resultsSalesIdOne = [
   {
     "date": "2022-09-10T15:55:31.000Z",
     "product_id": 1,
@@ -32,7 +32,7 @@ const resultFromGetSalesIdOne = [
   }
 ];
 
-const bodyToAddSale = [
+const addSale = [
   {
     "productId": 3,
     "quantity": 1
@@ -43,7 +43,7 @@ const bodyToAddSale = [
   }
 ];
 
-const resultFromAddSale = {
+const resultsFromSale = {
   "id": 5,
   "itemsSold": [
     {
@@ -58,8 +58,8 @@ const resultFromAddSale = {
 };
 
 module.exports = {
-  resultFromGetSales,
-  resultFromGetSalesIdOne,
-  bodyToAddSale,
-  resultFromAddSale,
+  resultsOfSales,
+  resultsSalesIdOne,
+  addSale,
+  resultsFromSale,
 };

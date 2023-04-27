@@ -15,7 +15,7 @@ const validateName = (name) => {
     if (error.message === '"value" is required') {
       return { type: 400, message: error.message.replace('value', 'name') };
     }
-
+console.log(error.message.replace('value', 'name'));
     return { type: 422, message: error.message.replace('value', 'name') };
   }
 

@@ -34,7 +34,7 @@ const updateProduct = async (id, name) => {
 
 const deleteProduct = async (id) => {
   const verify = await productModel.deleteProduct(id);
-
+console.log(verify);
   return verify;
 };
 

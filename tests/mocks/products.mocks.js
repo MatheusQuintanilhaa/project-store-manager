@@ -1,4 +1,4 @@
-const getProductsResult = [
+const resultsOfProducts = [
   {
     "id": 1,
     "name": "Martelo de Thor"
@@ -20,5 +20,5 @@ const error = {
 
 module.exports = {
   error,
-  getProductsResult,
+  resultsOfProducts,
 }

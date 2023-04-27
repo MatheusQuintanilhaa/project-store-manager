@@ -6,19 +6,19 @@ const mock = require('../../mocks/products.mocks');
 
 describe('Testando a camada Service - products', () => {
   it('Testando a função getProducts', async () => {
-    sinon.stub(productsModel, 'getProduct').resolves(mock.getProductsResult);
+    sinon.stub(productsModel, 'getProduct').resolves(mock.resultsOfProducts);
 
     const result = await productsService.getProduct();
 
-    expect(result).to.be.deep.equal(mock.getProductsResult);
+    expect(result).to.be.deep.equal(mock.resultsOfProducts);
   });
 
   it('Testando a função getProductsById com dados válidos', async () => {
-    sinon.stub(productsModel, 'getProductById').resolves([mock.getProductsResult[0]]);
+    sinon.stub(productsModel, 'getProductById').resolves([mock.resultsOfProducts[0]]);
 
     const result = await productsService.getProductById(1);
 
-    expect(result).to.be.deep.equal(mock.getProductsResult[0]);
+    expect(result).to.be.deep.equal(mock.resultsOfProducts[0]);
 
   });
 

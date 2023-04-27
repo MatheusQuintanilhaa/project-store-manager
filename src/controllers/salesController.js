@@ -24,8 +24,19 @@ const getSalesById = async (req, res) => {
   res.status(200).json(camelize(result));
 };
 
+const deleteSale = async (req, res) => {
+  const { id } = req.params;
+
+  const verify = await salesService.deleteSale(id);
+
+  if (verify.type) return res.status(404).json({ message: verify.message });
+
+  res.sendStatus(204);
+};
+
 module.exports = {
   addSale,
   getSales,
   getSalesById,
+  deleteSale,
 };

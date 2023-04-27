@@ -5,9 +5,11 @@ const mock = require('../../mocks/sales.mocks');
 const sinon = require('sinon');
 const { expect } = require('chai');
 
+
+
 describe('Testando camada Models - Sales', () => {
   it('Testando o retorno de SELECT todas as vendas', async () => {
-    sinon.stub(connection, 'execute').resolves([mock.resultFromGetSales]);
+    sinon.stub(connection, 'execute').resolves([mock.resultsOfSales]);
 
     const result = await salesModel.getSales();
 
@@ -18,18 +20,18 @@ describe('Testando camada Models - Sales', () => {
   });
 
   it('Testando retorno do SELECT para um id de vendas', async () => {
-    sinon.stub(connection, 'execute').resolves([mock.resultFromGetSalesIdOne]);
+    sinon.stub(connection, 'execute').resolves([mock.resultsSalesIdOne]);
 
     const result = await salesModel.getSalesById(1);
 
-    expect(result).to.be.deep.equal([mock.resultFromGetSalesIdOne]);
+    expect(result).to.be.deep.equal([mock.resultsSalesIdOne]);
   });
 
   it('Testando o retorno do INSERT quando retorna com sucesso', async () => {
     sinon.stub(productModel, 'getProduct').resolves([1, 2, 3]);
     sinon.stub(connection, 'execute').resolves([{ insertId: 5 }]);
 
-    const result = await salesModel.addSale([mock.bodyToAddSale]);
+    const result = await salesModel.addSale([mock.addSale]);
 
     expect(result).to.be.equal(5);
   })

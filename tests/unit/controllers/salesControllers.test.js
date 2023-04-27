@@ -10,8 +10,8 @@ const camelize = require('camelize');
 chai.use(sinonChai);
 
 describe('Testes da camada Controller - sales', () => {
-  it('Testa a função addSale em caso de sucesso', async () => {
-    sinon.stub(salesService, 'addSale').resolves(mock.resultFromAddSale);
+  it('Testando a função addSale com dados válidos', async () => {
+    sinon.stub(salesService, 'addSale').resolves(mock.resultsFromSale);
 
     const req = {};
     const res = {};
@@ -22,26 +22,58 @@ describe('Testes da camada Controller - sales', () => {
     await salesController.addSale(req, res);
 
     expect(res.status).to.have.been.calledWith(201);
-    expect(res.json).to.have.been.calledWith(mock.resultFromAddSale);
+    expect(res.json).to.have.been.calledWith(mock.resultsFromSale);
   });
 
-  it('Testa a função addSale em caso de erro', async () => {
-    sinon.stub(salesService, 'addSale').resolves({ type: 400, message: 'Deu erro' });
 
-    const req = {};
-    const res = {};
 
-    res.status = sinon.stub().returns(res);
-    res.json = sinon.stub().returns();
 
-    await salesController.addSale(req, res);
+it('deve retornar uma venda específica com um ID válido', async () => {
+      const saleId = '123'; // ID válido para o teste
+      const mockResult = { /* Dados fictícios da venda */ };
 
-    expect(res.status).to.have.been.calledWith(400);
-    expect(res.json).to.have.been.calledWith({ message: 'Deu erro' });
-  });
+      sinon.stub(salesService, 'getSalesById').withArgs(saleId).resolves(mockResult);
 
-  it('Testa a função getSales', async () => {
-    sinon.stub(salesService, 'getSales').resolves(mock.resultFromGetSales);
+      const req = {
+        params: { id: saleId },
+      };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await salesController.getSalesById(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(mockResult);
+
+      salesService.getSalesById.restore(); // Limpa o stub depois do teste
+    });
+
+
+  it('deve retornar um erro 404 para um ID inválido', async () => {
+  const invalidSaleId = 'invalidId';
+
+  sinon.stub(salesService, 'getSalesById').withArgs(invalidSaleId).resolves([]);
+
+  const req = {
+    params: { id: invalidSaleId },
+  };
+  const res = {};
+
+  res.status = sinon.stub().returns(res);
+  res.json = sinon.stub().returns();
+
+  await salesController.getSalesById(req, res);
+
+  expect(res.status).to.have.been.calledWith(404);
+  expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+});
+
+
+
+  it('Testando se a função getSales está funcionando corretamente', async () => {
+    sinon.stub(salesService, 'getSales').resolves(mock.resultsOfSales);
 
     const req = {};
     const res = {};
@@ -52,11 +84,12 @@ describe('Testes da camada Controller - sales', () => {
     await salesController.getSales(req, res);
 
     expect(res.status).to.have.been.calledWith(200);
-    expect(res.json).to.have.been.calledWith(mock.resultFromGetSales);
+    expect(res.json).to.have.been.calledWith(mock.resultsOfSales);
   });
 
-  it('Testa a função getSalesById', async () => {
-    sinon.stub(salesService, 'getSalesById').resolves(mock.resultFromGetSalesIdOne);
+  it('Testando se a função getSalesById está funcionando corretamente', async () => {
+    sinon.stub(salesService, 'getSalesById').resolves(mock.resultsSalesIdOne
+);
 
     const req = { params: { id: 1 } };
     const res = {};
@@ -67,7 +100,21 @@ describe('Testes da camada Controller - sales', () => {
     await salesController.getSalesById(req, res);
 
     expect(res.status).to.have.been.calledWith(200);
-    expect(res.json).to.have.been.calledWith(camelize(mock.resultFromGetSalesIdOne));
+    expect(res.json).to.have.been.calledWith(camelize(mock.resultsSalesIdOne
+));
+  });
+
+  it('Testando se  a função deleteSale está funcionando', async () => {
+    sinon.stub(salesService, 'deleteSale').resolves({ type: null });
+
+    const req = { params: { id: 1 } };
+    const res = {};
+
+    res.sendStatus = sinon.stub().returns(res);
+
+    await salesController.deleteSale(req, res);
+
+    expect(res.sendStatus).to.have.been.calledWith(204);
   });
 
   afterEach(() => sinon.restore());
