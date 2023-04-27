@@ -70,18 +70,6 @@ describe('Testes da camada Controller - sales', () => {
     expect(res.json).to.have.been.calledWith(camelize(mock.resultFromGetSalesIdOne));
   });
 
-// it('Testa a função deleteSale em caso de sucesso', async () => {
-  //   sinon.stub(salesService, 'deleteSale').resolves({ type: null });
-
-  //   const req = { params: { id: 1 } };
-  //   const res = {};
-
-  //   res.sendStatus = sinon.stub().returns(res);
-
-  //   await salesController.deleteSale(req, res);
-
-  //   expect(res.sendStatus).to.have.been.calledWith(204);
-  // });
   afterEach(() => sinon.restore());
 });
 
