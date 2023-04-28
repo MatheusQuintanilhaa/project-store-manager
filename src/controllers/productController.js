@@ -46,10 +46,21 @@ const deleteProduct = async (req, res) => {
   return res.status(204).send();
 };
 
+const lastEndPointController = async (req, res) => {
+  const { q } = req.query;
+  const products = await productService.lastEndPointService(q);
+  console.log(products, 'p');
+  if (products.length === 0) {
+    return res.status(404).json({ message: 'product not found' });
+  }
+  return res.status(200).json(products);
+};
+
 module.exports = {
   getProduct,
   getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
+  lastEndPointController,
 };

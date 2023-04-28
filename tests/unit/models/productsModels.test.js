@@ -25,18 +25,6 @@ describe('Testando camada Models - Products', () => {
       expect(result).to.eql([]);
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
   it('Testando o retorno de SELECT produto por id', async () => {
     sinon.stub(connection, 'execute').resolves([mock.resultsOfProducts]);
 
@@ -58,6 +46,11 @@ describe('Testando camada Models - Products', () => {
     expect(result.name).to.be.equal(name)
   });
 
+
+  it('Testando o endpoint products/search?q=searchTerm', async () => {
+    sinon.stub(connection, 'execute').resolves([mock.resultsOfProducts]);
+
+    
 
   afterEach(() => sinon.restore());
 });

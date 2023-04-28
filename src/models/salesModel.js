@@ -64,25 +64,6 @@ const deleteSale = async (id) => {
   return { type: null };
 };
 
-// const updateSales = async (id, body) => {
-//   const initialResult = await verifyProduct(body);
-//   if (initialResult.type) return initialResult;
-
-//   const saleExists = await getSalesById(id);
-//   if (saleExists[0].length === 0) return { type: 404, message: 'Sale not found' };
-
-//   body.forEach(async (cur) => {
-//     await connection.execute(
-//       `UPDATE StoreManager.sales_products
-//       SET product_id = ?, quantity = ?
-//       WHERE sale_id = ? AND product_id = ?`,
-//       [cur.productId, cur.quantity, id, cur.productId],
-//     );
-//   });
-
-//   return { type: null };
-// };
-
 const updateSale = async (saleId, products) => {
   const updatePromises = products.map(async (product) => {
     await connection.execute(

@@ -34,8 +34,14 @@ const updateProduct = async (id, name) => {
 
 const deleteProduct = async (id) => {
   const verify = await productModel.deleteProduct(id);
-console.log(verify);
   return verify;
+};
+
+const lastEndPointService = async (search) => {
+  const result = await getProduct();
+  const filteredProducts = result.filter((product) => product.name.includes(search));
+
+  return search === ' ' ? result : filteredProducts;
 };
 
 module.exports = {
@@ -44,4 +50,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  lastEndPointService,
 };
