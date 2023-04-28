@@ -12,7 +12,6 @@ const getProductById = async (id) => {
     'SELECT * FROM StoreManager.products WHERE id = ?;',
     [id],
   );
-  console.log(result);
   return result;
 };
 
@@ -26,7 +25,7 @@ const createProduct = async (name) => {
 
 const updateProduct = async (id, name) => {
   const [product] = await getProductById(id);
-
+  console.log(product, 'p');
   if (!product) {
     return { type: 404, message: 'Product not found' };
   }
@@ -34,7 +33,7 @@ const updateProduct = async (id, name) => {
   await connection.execute(
     'UPDATE StoreManager.products SET name = ? WHERE id = ?',
     [name, id],
-  );
+    );
 
   return { id, name };
 };

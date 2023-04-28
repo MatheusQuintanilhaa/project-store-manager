@@ -3,6 +3,7 @@ const { expect } = require('chai');
 const chai = require('chai');
 const salesService = require('../../../src/services/salesService');
 const salesController = require('../../../src/controllers/salesController');
+const productService = require('../../../src/services/productService');
 const mock = require('../../mocks/sales.mocks');
 const sinonChai = require('sinon-chai');
 const camelize = require('camelize');
@@ -65,16 +66,6 @@ it('deve retornar um erro 400 para uma requisição inválida', async () => {
   expect(res.status).to.have.been.calledWith(400);
   expect(res.json).to.have.been.calledWith({ message: 'Bad Request' });
 });
-
-
-
-
-
-
-
-
-
-
 
 it('deve retornar uma venda específica com um ID válido', async () => {
       const saleId = '123'; // ID válido para o teste
@@ -164,6 +155,81 @@ it('deve retornar uma venda específica com um ID válido', async () => {
 
     expect(res.sendStatus).to.have.been.calledWith(204);
   });
+
+
+  it('deve atualizar uma venda com sucesso', async () => {
+  const req = {
+    params: { id: 1 },
+    body: {
+      items: [
+        { productId: 1, quantity: 2 },
+        { productId: 2, quantity: 1 },
+      ]
+    }
+  };
+  const res = { status: sinon.stub(), json: sinon.stub() };
+  const expectedResult = { saleId: 1, itemsUpdated: req.body };
+
+  sinon.stub(salesService, 'updateSale').resolves(expectedResult);
+  res.status.returns(res);
+
+  await salesController.updateSale(req, res);
+
+  expect(res.status.calledWith(200)).to.be.true;
+  expect(res.json.calledWith(expectedResult)).to.be.true;
+  });
+
+
+
+
+
+it('deve retornar status 204', async () => {
+      const req = { params: { id: '123' } };
+      const res = { sendStatus: sinon.spy() };
+
+      salesService.deleteSale = sinon.stub().resolves({ type: null });
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.sendStatus.calledWithExactly(204)).to.be.true;
+    });
+
+    it('deve retornar status 404 caso a venda não seja encontrada', async () => {
+      const req = { params: { id: '123' } };
+      const res = { status: sinon.stub().returns({ json: sinon.spy() }) };
+
+      salesService.deleteSale = sinon.stub().resolves({ type: 404, message: 'Sale not found' });
+
+      await salesController.deleteSale(req, res);
+
+      expect(res.status.calledWithExactly(404)).to.be.true;
+      expect(res.status().json.calledWithExactly({ message: 'Sale not found' })).to.be.true;
+    });
+
+
+  it('deve retornar status 200 e o objeto atualizado', async () => {
+      const req = { params: { id: '123' }, body: [{ productId: '456', quantity: 2 }] };
+      const res = { status: sinon.stub().returns({ json: sinon.spy() }) };
+
+      salesService.updateSale = sinon.stub().resolves({ type: null });
+
+      await salesController.updateSale(req, res);
+
+      expect(res.status.calledWithExactly(200)).to.be.true;
+      expect(res.status().json.calledWithExactly({ saleId: '123', itemsUpdated: req.body })).to.be.true;
+    });
+
+    it('deve retornar status 404 caso a venda não seja encontrada', async () => {
+      const req = { params: { id: '123' }, body: [{ productId: '456', quantity: 2 }] };
+      const res = { status: sinon.stub().returns({ json: sinon.spy() }) };
+
+      salesService.updateSale = sinon.stub().resolves({ type: 404, message: 'Sale not found' });
+
+      await salesController.updateSale(req, res);
+
+      expect(res.status.calledWithExactly(404)).to.be.true;
+      expect(res.status().json.calledWithExactly({ message: 'Sale not found' })).to.be.true;
+    });
 
   afterEach(() => sinon.restore());
 });
