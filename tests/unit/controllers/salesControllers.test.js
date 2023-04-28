@@ -11,19 +11,67 @@ chai.use(sinonChai);
 
 describe('Testes da camada Controller - sales', () => {
   it('Testando a função addSale com dados válidos', async () => {
-    sinon.stub(salesService, 'addSale').resolves(mock.resultsFromSale);
+  const mockValidResult = {
+    id: 1,
+    product: 'Product 1',
+    quantity: 10,
+    total: 100.0,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 
-    const req = {};
-    const res = {};
+  sinon.stub(salesService, 'addSale').resolves(mockValidResult);
 
-    res.status = sinon.stub().returns(res);
-    res.json = sinon.stub().returns();
+  const req = {
+    body: {
+      product: 'Product 1',
+      quantity: 10,
+      total: 100.0,
+    },
+  };
+  const res = {};
 
-    await salesController.addSale(req, res);
+  res.status = sinon.stub().returns(res);
+  res.json = sinon.stub().returns();
 
-    expect(res.status).to.have.been.calledWith(201);
-    expect(res.json).to.have.been.calledWith(mock.resultsFromSale);
-  });
+  await salesController.addSale(req, res);
+
+  expect(res.status).to.have.been.calledWith(201);
+  expect(res.json).to.have.been.calledWith(mockValidResult);
+});
+
+it('deve retornar um erro 400 para uma requisição inválida', async () => {
+  const mockInvalidResult = {
+    type: 400,
+    message: 'Bad Request',
+  };
+
+  sinon.stub(salesService, 'addSale').resolves(mockInvalidResult);
+
+  const req = {
+    body: {
+      product: 'Product 1',
+      quantity: -1,
+      total: 100.0,
+    },
+  };
+  const res = {};
+
+  res.status = sinon.stub().returns(res);
+  res.json = sinon.stub().returns();
+
+  await salesController.addSale(req, res);
+
+  expect(res.status).to.have.been.calledWith(400);
+  expect(res.json).to.have.been.calledWith({ message: 'Bad Request' });
+});
+
+
+
+
+
+
+
 
 
 

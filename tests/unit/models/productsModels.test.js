@@ -16,6 +16,27 @@ describe('Testando camada Models - Products', () => {
   });
 
 
+
+    it('deve retornar vazio para um produto inexistente', async () => {
+      const productId = 999;
+
+      const result = await productModel.getProductById(productId);
+
+      expect(result).to.eql([]);
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
   it('Testando o retorno de SELECT produto por id', async () => {
     sinon.stub(connection, 'execute').resolves([mock.resultsOfProducts]);
 

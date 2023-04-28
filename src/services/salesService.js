@@ -1,5 +1,6 @@
 const salesModel = require('../models/salesModel');
 const validation = require('./validations/validation');
+const productService = require('./productService');
 
 const addSale = async (body) => {
   const error = validation.validateSales(body);
@@ -28,9 +29,26 @@ const deleteSale = async (id) => {
   return verify;
 };
 
+const updateSale = async (id, body) => {
+  const error = validation.validateSales(body);
+  const getSalesTest = await getSalesById(id);
+  if (error.type) return error;
+  if (!getSalesTest || (getSalesTest.length === 0)) {
+    return { type: 404, message: 'Sale not found' };
+  }
+  const products = await productService.getProduct();
+  const test = body.every((e) => products.some((p) => p.id === e.productId));
+  if (!test) return { type: 404, message: 'Product not found' };
+
+  await salesModel.updateSale(id, body);
+
+  return { type: null };
+};
+
 module.exports = {
   addSale,
   getSales,
   getSalesById,
   deleteSale,
+  updateSale,
 };
