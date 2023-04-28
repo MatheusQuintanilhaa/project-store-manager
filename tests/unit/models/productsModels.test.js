@@ -84,18 +84,9 @@ describe('Testando camada Models - Products', () => {
 	"id": 1,
 	"name": "Biscoito Oreo"
 }]]);
-    // const functionGetProdut = await productModel.getProductById(1);
     const result = await productModel.updateProduct(1, 'Biscoito Oreo');
     expect(result).to.be.deep.equal({ id: 1, name: 'Biscoito Oreo' });
-    // expect(functionGetProdut).to.be.deep.equal([{ id: 1, name: 'Biscoito Oreo' }]);
   })
-
-
-
-
-
-
-
 
   afterEach(() => sinon.restore());
 });
